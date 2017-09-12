@@ -52,6 +52,7 @@ RUN apt-get -y install libboost-dev libboost-python-dev libboost-thread-dev libb
 RUN apt-get -y install bison bzip2 flex python-xmlrunner python-pip gettext
 RUN pip install pyfits pywcs python-monetdb unittest2
 RUN cd /usr/lib/python2.7/dist-packages/numpy/core && ln -s `ls multiarray.*.so | head`  multiarray.so
+
 #
 # Additional stuff
 #
@@ -88,7 +89,7 @@ RUN mkdir -p ${INSTALLDIR}/cfitsio/build
 RUN cd ${INSTALLDIR}/cfitsio && wget --retry-connrefused ftp://anonymous@heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio${CFITSIO_VERSION}.tar.gz
 RUN cd ${INSTALLDIR}/cfitsio && tar xf cfitsio${CFITSIO_VERSION}.tar.gz
 RUN cd ${INSTALLDIR}/cfitsio/build && cmake -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/cfitsio/ ../cfitsio
-RUN cd ${INSTALLDIR}/cfitsio/build && make -j ${J}
+RUN cd ${INSTALLDIR}/cfitsio/build && make -j5 ${J}
 RUN cd ${INSTALLDIR}/cfitsio/build && make install
 
 #
@@ -112,7 +113,7 @@ RUN if [ "${CASACORE_VERSION}" != "latest" ]; then cd ${INSTALLDIR}/casacore/src
 RUN cd ${INSTALLDIR}/casacore/data && wget --retry-connrefused ftp://anonymous@ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar
 RUN cd ${INSTALLDIR}/casacore/data && tar xf WSRT_Measures.ztar
 RUN cd ${INSTALLDIR}/casacore/build && cmake -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/casacore/ -DDATA_DIR=${INSTALLDIR}/casacore/data -DWCSLIB_ROOT_DIR=/${INSTALLDIR}/wcslib/ -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio/ -DBUILD_PYTHON=True -DUSE_OPENMP=True -DUSE_FFTW3=TRUE ../src/
-RUN cd ${INSTALLDIR}/casacore/build && make -j ${J}
+RUN cd ${INSTALLDIR}/casacore/build && make -j5 ${J}
 RUN cd ${INSTALLDIR}/casacore/build && make install
 
 #
@@ -122,7 +123,7 @@ RUN mkdir -p ${INSTALLDIR}/casarest/build
 RUN cd ${INSTALLDIR}/casarest && git clone https://github.com/casacore/casarest.git src
 RUN if [ "${CASAREST_VERSION}" != "latest" ]; then cd ${INSTALLDIR}/casarest/src && git checkout tags/${CASAREST_VERSION}; fi
 RUN cd ${INSTALLDIR}/casarest/build && cmake -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/casarest -DCASACORE_ROOT_DIR=${INSTALLDIR}/casacore -DWCSLIB_ROOT_DIR=${INSTALLDIR}/wcslib -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio ../src/
-RUN cd ${INSTALLDIR}/casarest/build && make -j ${J}
+RUN cd ${INSTALLDIR}/casarest/build && make -j5 ${J}
 RUN cd ${INSTALLDIR}/casarest/build && make install
 
 #
@@ -144,7 +145,7 @@ RUN mkdir -p ${INSTALLDIR}/aoflagger/build
 RUN cd ${INSTALLDIR}/aoflagger && git clone git://git.code.sf.net/p/aoflagger/code aoflagger
 RUN cd ${INSTALLDIR}/aoflagger/aoflagger && git checkout tags/${AOFLAGGER_VERSION}
 RUN cd ${INSTALLDIR}/aoflagger/build && cmake -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/aoflagger/ -DCASACORE_ROOT_DIR=${INSTALLDIR}/casacore -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio -DBUILD_SHARED_LIBS=ON ../aoflagger
-RUN cd ${INSTALLDIR}/aoflagger/build && make -j ${J}
+RUN cd ${INSTALLDIR}/aoflagger/build && make -j5 ${J}
 RUN cd ${INSTALLDIR}/aoflagger/build && make install
 
 #
@@ -159,7 +160,7 @@ RUN mkdir -p ${INSTALLDIR}/lofar/build/gnu_opt
 RUN if [ "${LOFAR_VERSION}" = "latest" ]; then cd ${INSTALLDIR}/lofar && svn --non-interactive -q co https://svn.astron.nl/LOFAR/trunk src; fi
 RUN if [ "${LOFAR_VERSION}" != "latest" ]; then cd ${INSTALLDIR}/lofar && svn --non-interactive -q co https://svn.astron.nl/LOFAR/tags/LOFAR-Release-${LOFAR_VERSION} src; fi
 RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && cmake -DBUILD_PACKAGES=Offline -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/lofar/ -DWCSLIB_ROOT_DIR=${INSTALLDIR}/wcslib/ -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio/ -DCASAREST_ROOT_DIR=${INSTALLDIR}/casarest/ -DCASACORE_ROOT_DIR=${INSTALLDIR}/casacore/ -DAOFLAGGER_ROOT_DIR=${INSTALLDIR}/aoflagger/ -DLOG4CPLUS_ROOT_DIR=${INSTALLDIR}/log4cplus/ -DUSE_OPENMP=True ${INSTALLDIR}/lofar/src/
-RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && make -j ${J}
+RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && make -j5 ${J}
 RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && make install
 
 #
