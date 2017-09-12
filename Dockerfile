@@ -52,6 +52,21 @@ RUN apt-get -y install libboost-dev libboost-python-dev libboost-thread-dev libb
 RUN apt-get -y install bison bzip2 flex python-xmlrunner python-pip gettext
 RUN pip install pyfits pywcs python-monetdb unittest2
 RUN cd /usr/lib/python2.7/dist-packages/numpy/core && ln -s `ls multiarray.*.so | head`  multiarray.so
+#
+# Additional stuff
+#
+RUN apt-get -y install ssh
+RUN apt-get -y install vim
+RUN apt-get -y install net-tools
+RUN apt-get -y install htop
+RUN apt-get -y install screen
+
+RUN service ssh restart
+RUN echo "defshell -bash" > ~/.screenrc
+
+
+
+
 
 #
 # setup-account
