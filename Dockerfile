@@ -43,6 +43,7 @@ ENV J 48
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get -y install sudo
+RUN apt-get -y install apt-utils
 RUN apt-get -y install git subversion wget
 RUN apt-get -y install automake autotools-dev cmake make python-setuptools
 RUN apt-get -y install  g++ gcc gfortran
