@@ -51,7 +51,7 @@ RUN apt-get -y install libblas-dev libfftw3-dev python-dev liblapack-dev libpng-
 RUN apt-get -y install libboost-dev libboost-python-dev libboost-thread-dev libboost-system-dev libboost-filesystem-dev libboost-iostreams-dev libboost-signals-dev
 RUN apt-get -y install bison bzip2 flex python-xmlrunner python-pip gettext doxygen libgsl-dev libhdf5-dev libboost-test-dev
 RUN pip install --upgrade pip
-RUN pip install pyfits pywcs python-monetdb unittest2 matplotlib
+RUN pip install pyfits pywcs python-monetdb unittest2 matplotlib astropy aplpy
 RUN cd /usr/lib/python2.7/dist-packages/numpy/core && ln -s `ls multiarray.*.so | head`  multiarray.so
 
 #
@@ -164,6 +164,20 @@ RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && cmake -DBUILD_PACKAGES=Offline -DCMA
 RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && make -j ${J}
 RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && make install
 
+
+#
+# Fix Python .egg folders
+#
+
+
+#
+# WSClean install
+# 
+
+
+
+
+
 #
 # init-lofar
 #
@@ -172,6 +186,10 @@ RUN sudo sh -c 'echo export PYTHONPATH=\${PYTHONPATH:+:\${PYTHONPATH}}:\${INSTAL
 RUN sudo sh -c 'echo export PATH=\${PATH:+:\$PATH}:\${INSTALLDIR}/casacore/bin  >> /usr/bin/init-lofar.sh'
 RUN sudo sh -c 'echo export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}:\${INSTALLDIR}/casacore/lib  >> /usr/bin/init-lofar.sh'
 RUN sudo sh -c "echo source /usr/bin/init-lofar.sh >> /usr/bin/init.sh"
+
+
+
+
 
 #
 # entrypoint
