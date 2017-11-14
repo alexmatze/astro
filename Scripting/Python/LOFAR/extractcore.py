@@ -1,14 +1,7 @@
 #!/usr/bin/python
 #====================================================
-#This script is used to successfully create light-
-#curves of one  host-star in order to detect exoplanets
-#via transit method. Prepare a list ("darks_b.txt","darks_a.txt") of
-#your dark images before/after, a list ("flats_b.txt","flats_a.txt") 
-#of your flat images before/after and a list (data.txt) of
-#your target images.
-#Also: create a subfolder (./corrected/) for corrected
-#target images.
-#Run this script in the folder of target images!!
+#This script is used to successfully subtract gaussian
+#components of a fits-file image
 #====================================================
 
 #====================================================
@@ -19,6 +12,12 @@ import pyfits
 import os
 import numpy as np
 from astropy.time import Time
+import pylab as plt
+import scipy
+import scipy.optimize as opt
+import matplotlib.colors as colors
+import matplotlib
+from matplotlib.mlab import bivariate_normal
 
 #====================================================
 #     Loading absolute and temporary variables 
@@ -67,6 +66,25 @@ def median(a): # a: array of matrices
 	
 	return c
 
+def twoD_Gaussian((x, y), amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
+    xo = float(xo)
+    yo = float(yo)    
+    a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
+    b = -(np.sin(2*theta))/(4*sigma_x**2) + (np.sin(2*theta))/(4*sigma_y**2)
+    c = (np.sin(theta)**2)/(2*sigma_x**2) + (np.cos(theta)**2)/(2*sigma_y**2)
+    g = offset + amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) 
+                            + c*((y-yo)**2)))
+    return g.ravel()
+
+def twoD_Gaussian_norav((x, y), amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
+    xo = float(xo)
+    yo = float(yo)    
+    a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
+    b = -(np.sin(2*theta))/(4*sigma_x**2) + (np.sin(2*theta))/(4*sigma_y**2)
+    c = (np.sin(theta)**2)/(2*sigma_x**2) + (np.cos(theta)**2)/(2*sigma_y**2)
+    g = offset + amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) 
+                            + c*((y-yo)**2)))
+    return g
 
 
 
@@ -80,13 +98,50 @@ hdulist=pyfits.open(path_in) * 1
 dataset=hdulist[0].data
 header=hdulist[0].header
 
+datasetr=dataset * 1
+dataset=dataset.ravel()
 
 
 # We start to calculate median flats for before/after measurement
 
 x_size=header["NAXIS1"]
 y_size=header["NAXIS2"]
-	
+
+### Fitting Start Parameters
+x_max=128 #x position of peak
+y_max=129 #y position of peak
+
+x_1=0 #x start position of fitting box
+y_1=0 #y start position of fitting box
+x_2=0 #x end position of fitting box
+y_2=0 #y end position of fitting box
+thet=45 #position angle of 2d gauss in deg
+sigm1=6 #width of first 1d gauss
+sigm2=4 #width of second 1d gauss
+tval=0 #Value offset for fit (noise)
+amp=8 #Amplitude of max position
+#-------------------------------------
+#build grid
+thet=(thet/360.)*scipy.pi
+
+
+x=np.linspace(0,x_size-1,x_size)
+y=np.linspace(0,y_size-1,y_size)
+x, y=np.meshgrid(x, y)
+
+popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,p0=(amp,x_max,y_max,sigm1,sigm2,thet,tval))
+data_fitted = twoD_Gaussian_norav((x, y), *popt)
+
+resid_img=datasetr-data_fitted
+
+Z1 = bivariate_normal(x,y, 0.1, 0.2, 1.0, 1.0) + 0.1 * bivariate_normal(x, y, 1.0, 1.0, 0.0, 0.0)
+print popt
+print pcov
+
+#fig, ax = plt.subplots(1, 1)
+plt.figure("Fitfunction"); plt.imshow(data_fitted,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
+plt.figure("Initial Data"); plt.imshow(datasetr,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
+plt.figure("Residual"); plt.imshow(resid_img,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis();plt.show()
 if os.path.isfile(path_out):
 	os.system("rm " + path_out)
 if os.path.isfile(path_out_comp):

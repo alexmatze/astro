@@ -145,9 +145,9 @@ resid_img=datasetr-data_fitted
 
 print popt
 print pcov
-plt.figure(); plt.imshow(data_fitted);plt.colorbar();plt.logspace();plt.gca().invert_yaxis();plt.show()
-#plt.figure(); plt.imshow(datasetr);plt.colorbar();plt.gca().invert_yaxis();plt.show()
-#plt.figure(); plt.imshow(resid_img);plt.colorbar();plt.gca().invert_yaxis();plt.show()
+plt.figure("Fitfunction"); plt.imshow(data_fitted,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
+plt.figure("Initial Data"); plt.imshow(datasetr,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
+plt.figure("Residual"); plt.imshow(resid_img,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis();plt.show()
 if os.path.isfile(path_out):
 	os.system("rm " + path_out)
 if os.path.isfile(path_out_comp):
