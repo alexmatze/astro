@@ -15,6 +15,10 @@ from astropy.time import Time
 import pylab as plt
 import scipy
 import scipy.optimize as opt
+import matplotlib.colors as colors
+import matplotlib
+from matplotlib.mlab import bivariate_normal
+
 
 #====================================================
 #     Loading absolute and temporary variables 
