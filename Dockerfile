@@ -178,7 +178,7 @@ RUN sudo mkdir -p ${INSTALLDIR}/wsclean
 RUN sudo chmod -R 777 ${INSTALLDIR}/wsclean
 RUN cd ${INSTALLDIR}/wsclean && wget https://sourceforge.net/projects/wsclean/files/wsclean-2.4/wsclean-2.4.tar.bz2
 RUN sudo tar xf ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
-RUN sudo sh -c 'echo ls'
+RUN sudo sh -c 'echo ls ${INSTALLDIR}/wsclean/'
 RUN sudo rm ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
 RUN sudo chmod -R 777 ${INSTALLDIR}/wsclean/wsclean-2.4
 RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4
