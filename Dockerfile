@@ -162,7 +162,7 @@ RUN if [ "${LOFAR_VERSION}" = "latest" ]; then cd ${INSTALLDIR}/lofar && svn --n
 RUN if [ "${LOFAR_VERSION}" != "latest" ]; then cd ${INSTALLDIR}/lofar && svn --non-interactive -q co https://svn.astron.nl/LOFAR/tags/LOFAR-Release-${LOFAR_VERSION} src; fi
 RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo cmake -DBUILD_PACKAGES=Offline -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/lofar/ -DWCSLIB_ROOT_DIR=${INSTALLDIR}/wcslib/ -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio/ -DCASAREST_ROOT_DIR=${INSTALLDIR}/casarest/ -DCASACORE_ROOT_DIR=${INSTALLDIR}/casacore/ -DAOFLAGGER_ROOT_DIR=${INSTALLDIR}/aoflagger/ -DLOG4CPLUS_ROOT_DIR=${INSTALLDIR}/log4cplus/ -DUSE_OPENMP=True ${INSTALLDIR}/lofar/src/
 RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo make -j ${J}
-RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo  make install
+RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo make install
 
 
 #
@@ -182,8 +182,8 @@ RUN sudo rm ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
 RUN sudo chmod -R 777 ${INSTALLDIR}/wsclean/wsclean-2.4
 RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4 && mkdir build 
 RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && cmake -DCMAKE_PREFIX_PATH="/home/lofar/opt/lofar/;/home/lofar/opt/casacore/;/home/lofar/opt/cfitsio;/home/lofar/opt/lofar/lib/python2.7/site-packages/losoto/" -DBUILD_SHARED_LIBS=TRUE ../
-RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && make -j ${J}
-RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && make install
+RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && sudo make -j ${J}
+RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && sudo make install
 
 
 
