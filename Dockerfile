@@ -178,14 +178,12 @@ RUN sudo mkdir -p ${INSTALLDIR}/wsclean
 RUN sudo chmod -R 777 ${INSTALLDIR}/wsclean
 RUN cd ${INSTALLDIR}/wsclean && wget https://sourceforge.net/projects/wsclean/files/wsclean-2.4/wsclean-2.4.tar.bz2
 RUN cd ${INSTALLDIR}/wsclean && tar xf wsclean*.tar.bz2
-RUN ls ${INSTALLDIR}/wsclean/
 RUN sudo rm ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
 RUN sudo chmod -R 777 ${INSTALLDIR}/wsclean/wsclean-2.4
-RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4
-RUN mkdir build && cd build
-RUN cmake -DCMAKE_PREFIX_PATH="/home/lofar/opt/lofar/;/home/lofar/opt/casacore/;/home/lofar/opt/cfitsio;/home/lofar/opt/lofar/lib/python2.7/site-packages/losoto/" -DBUILD_SHARED_LIBS=TRUE ../
-RUN make -j ${J}
-RUN make install
+RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4 && mkdir build 
+RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && cmake -DCMAKE_PREFIX_PATH="/home/lofar/opt/lofar/;/home/lofar/opt/casacore/;/home/lofar/opt/cfitsio;/home/lofar/opt/lofar/lib/python2.7/site-packages/losoto/" -DBUILD_SHARED_LIBS=TRUE ../
+RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && make -j ${J}
+RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && make install
 
 
 
