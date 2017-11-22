@@ -174,7 +174,7 @@ RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && make install
 #
 # WSClean install
 # 
-RUN mkdir -p ${INSTALLDIR}/wsclean/build
+RUN sudo mkdir -p ${INSTALLDIR}/wsclean
 RUN cd ${INSTALLDIR}/wsclean && wget https://sourceforge.net/projects/wsclean/files/wsclean-2.4/wsclean-2.4.tar.bz2
 RUN tar xf ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
 RUN rm ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
