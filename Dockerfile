@@ -177,8 +177,9 @@ RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && make install
 RUN sudo mkdir -p ${INSTALLDIR}/wsclean
 RUN sudo chmod -R 777 ${INSTALLDIR}/wsclean
 RUN cd ${INSTALLDIR}/wsclean && wget https://sourceforge.net/projects/wsclean/files/wsclean-2.4/wsclean-2.4.tar.bz2
-RUN tar xf ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
-RUN rm ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
+RUN sudo tar xf ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
+RUN sudo rm ${INSTALLDIR}/wsclean/wsclean-2.4.tar.bz2
+RUN sudo chmod -R 777 ${INSTALLDIR}/wsclean/wsclean-2.4/
 RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4
 RUN mkdir build && cd build
 RUN cmake -DCMAKE_PREFIX_PATH="/home/lofar/opt/lofar/;/home/lofar/opt/casacore/;/home/lofar/opt/cfitsio;/home/lofar/opt/lofar/lib/python2.7/site-packages/losoto/" -DBUILD_SHARED_LIBS=TRUE ../
