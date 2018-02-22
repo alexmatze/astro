@@ -1,7 +1,14 @@
 #!/usr/bin/python
 #====================================================
-#This script is used to successfully subtract gaussian
-#components of a fits-file image
+#This script is used to successfully create light-
+#curves of one  host-star in order to detect exoplanets
+#via transit method. Prepare a list ("darks_b.txt","darks_a.txt") of
+#your dark images before/after, a list ("flats_b.txt","flats_a.txt") 
+#of your flat images before/after and a list (data.txt) of
+#your target images.
+#Also: create a subfolder (./corrected/) for corrected
+#target images.
+#Run this script in the folder of target images!!
 #====================================================
 
 #====================================================
@@ -18,7 +25,6 @@ import scipy.optimize as opt
 import matplotlib.colors as colors
 import matplotlib
 from matplotlib.mlab import bivariate_normal
-
 
 #====================================================
 #     Loading absolute and temporary variables 
@@ -67,32 +73,24 @@ def median(a): # a: array of matrices
 	
 	return c
 
-def twoD_Gaussian((x, y), amplitude,amplitude2, xo, yo, sigma_x,sigma_xo, sigma_y,sigma_yo, theta, offset):
+def twoD_Gaussian((x, y), amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
     xo = float(xo)
-    yo = float(yo) 
+    yo = float(yo)    
     a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
     b = -(np.sin(2*theta))/(4*sigma_x**2) + (np.sin(2*theta))/(4*sigma_y**2)
     c = (np.sin(theta)**2)/(2*sigma_x**2) + (np.cos(theta)**2)/(2*sigma_y**2)
-    aa = (np.cos(theta)**2)/(2*sigma_xo**2) + (np.sin(theta)**2)/(2*sigma_yo**2)
-    bb = -(np.sin(2*theta))/(4*sigma_xo**2) + (np.sin(2*theta))/(4*sigma_yo**2)
-    cc = (np.sin(theta)**2)/(2*sigma_xo**2) + (np.cos(theta)**2)/(2*sigma_yo**2)
     g = offset + amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) 
-                            + c*((y-yo)**2))) + amplitude2*np.exp( - (aa*((x-xo)**2) + 2*bb*(x-xo)*(y-yo) 
-                            + cc*((y-yo)**2)))
+                            + c*((y-yo)**2)))
     return g.ravel()
 
-def twoD_Gaussian_norav((x, y), amplitude,amplitude2, xo, yo, sigma_x,sigma_xo, sigma_y,sigma_yo, theta, offset):
+def twoD_Gaussian_norav((x, y), amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
     xo = float(xo)
-    yo = float(yo) 
+    yo = float(yo)    
     a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
     b = -(np.sin(2*theta))/(4*sigma_x**2) + (np.sin(2*theta))/(4*sigma_y**2)
     c = (np.sin(theta)**2)/(2*sigma_x**2) + (np.cos(theta)**2)/(2*sigma_y**2)
-    aa = (np.cos(theta)**2)/(2*sigma_xo**2) + (np.sin(theta)**2)/(2*sigma_yo**2)
-    bb = -(np.sin(2*theta))/(4*sigma_xo**2) + (np.sin(2*theta))/(4*sigma_yo**2)
-    cc = (np.sin(theta)**2)/(2*sigma_xo**2) + (np.cos(theta)**2)/(2*sigma_yo**2)
     g = offset + amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) 
-                            + c*((y-yo)**2))) + amplitude2*np.exp( - (aa*((x-xo)**2) + 2*bb*(x-xo)*(y-yo) 
-                            + cc*((y-yo)**2)))
+                            + c*((y-yo)**2)))
     return g
 
 
@@ -119,79 +117,35 @@ y_size=header["NAXIS2"]
 ### Fitting Start Parameters
 x_max=128 #x position of peak
 y_max=129 #y position of peak
-xo_max=128 #x position of second peak
-yo_max=129 #y position of second peak
 
-
-thet=60 #position angle of both 2d gauss in deg
-
-amp=6 #Amplitude of max position
-ampo=-1 #Amplitude of max position
-sigm1=1.8 #width of first 1d gauss
-sigm2=2.3 #width of second 1d gauss
-sigm1o=3 #width of first 1d gauss
-sigm2o=5 #width of second 1d gauss
-
-tval=0.1 #Value offset for fit (noise)
-
-#Fitting min-max param values:
-#min:
-x_max_min=126 #x position of peak
-y_max_min=127 #y position of peak
-xo_max_min=126 #x position of second peak
-yo_max_min=127 #y position of second peak
-
-
-thet_min=40 #position angle of both 2d gauss in deg
-
-amp_min=5 #Amplitude of max position
-ampo_min=-4 #Amplitude of max position
-sigm1_min=0 #width of first 1d gauss
-sigm2_min=0 #width of second 1d gauss
-sigm1o_min=2 #width of first 1d gauss
-sigm2o_min=5 #width of second 1d gauss
-
-tval_min=0 #Value offset for fit (noise)
-
-
-#max:
-x_max_max=130 #x position of peak
-y_max_max=131 #y position of peak
-xo_max_max=130 #x position of second peak
-yo_max_max=131 #y position of second peak
-
-
-thet_max=70 #position angle of both 2d gauss in deg
-
-amp_max=9 #Amplitude of max position
-ampo_max=-1 #Amplitude of max position
-sigm1_max=5 #width of first 1d gauss
-sigm2_max=5 #width of second 1d gauss
-sigm1o_max=4 #width of first 1d gauss
-sigm2o_max=6 #width of second 1d gauss
-
-tval_max=0.5 #Value offset for fit (noise)
-
+x_1=0 #x start position of fitting box
+y_1=0 #y start position of fitting box
+x_2=0 #x end position of fitting box
+y_2=0 #y end position of fitting box
+thet=45 #position angle of 2d gauss in deg
+sigm1=6 #width of first 1d gauss
+sigm2=4 #width of second 1d gauss
+tval=0 #Value offset for fit (noise)
+amp=8 #Amplitude of max position
 #-------------------------------------
 #build grid
 thet=(thet/360.)*scipy.pi
-thet_min=(thet_min/360.)*scipy.pi
-thet_max=(thet_max/360.)*scipy.pi
 
 
 x=np.linspace(0,x_size-1,x_size)
 y=np.linspace(0,y_size-1,y_size)
 x, y=np.meshgrid(x, y)
 
-#popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,p0=(amp,ampo,x_max,y_max,sigm1,sigm1o,sigm2,sigm2o,thet,tval))
-
-popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,maxfev=100000,p0=(amp,ampo,x_max,y_max,sigm1,sigm1o,sigm2,sigm2o,thet,tval),bounds=([amp_min,ampo_min, x_max_min, y_max_min, sigm1_min,sigm1o_min, sigm2_min,sigm2o_min, thet_min, tval_min],[amp_max,ampo_max, x_max_max, y_max_max, sigm1_max,sigm1o_max, sigm2_max,sigm2o_max, thet_max, tval_max]))
+popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,p0=(amp,x_max,y_max,sigm1,sigm2,thet,tval))
 data_fitted = twoD_Gaussian_norav((x, y), *popt)
 
 resid_img=datasetr-data_fitted
 
+Z1 = bivariate_normal(x,y, 0.1, 0.2, 1.0, 1.0) + 0.1 * bivariate_normal(x, y, 1.0, 1.0, 0.0, 0.0)
 print popt
 print pcov
+
+#fig, ax = plt.subplots(1, 1)
 plt.figure("Fitfunction"); plt.imshow(data_fitted,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
 plt.figure("Initial Data"); plt.imshow(datasetr,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
 plt.figure("Residual"); plt.imshow(resid_img,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis();plt.show()

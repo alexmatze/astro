@@ -207,7 +207,7 @@ x, y=np.meshgrid(x, y)
 
 #popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,p0=(amp,ampo,x_max,y_max,sigm1,sigm1o,sigm2,sigm2o,thet,tval))
 
-popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,maxfev=100000,p0=(amp,ampo,ampoo,x_max,y_max,sigm1,sigm1o,sigm1oo,sigm2,sigm2o,sigm2oo,thet,tval),bounds=([amp_min,ampo_min,ampoo_min, x_max_min, y_max_min, sigm1_min,sigm1o_min,sigm1oo_min, sigm2_min,sigm2o_min,sigm2oo_min, thet_min, tval_min],[amp_max,ampo_max,ampoo_max, x_max_max, y_max_max, sigm1_max,sigm1o_max,sigm1oo_max, sigm2_max,sigm2o_max, sigm2oo_max thet_max, tval_max]))
+popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,maxfev=100000,p0=(amp,ampo,x_max,y_max,sigm1,sigm1o,sigm2,sigm2o,thet,tval),bounds=([amp_min,ampo_min, x_max_min, y_max_min, sigm1_min,sigm1o_min, sigm2_min,sigm2o_min, thet_min, tval_min],[amp_max,ampo_max, x_max_max, y_max_max, sigm1_max,sigm1o_max, sigm2_max,sigm2o_max, thet_max, tval_max]))
 data_fitted = twoD_Gaussian_norav((x, y), *popt)
 
 resid_img=datasetr-data_fitted
