@@ -8,7 +8,7 @@
 #          Loading necessary packages
 #====================================================
 
-import pyfits
+import astropy.io.fits as pyfits
 import os
 import numpy as np
 from astropy.time import Time
@@ -25,8 +25,8 @@ from matplotlib.mlab import bivariate_normal
 #====================================================
 
 path_in="0836+710_stacked_hba.fits"
-path_out="0836+710_resid.fits"
-path_out_comp="0836+710_comp.fits"
+path_out="0836+710_resid3.fits"
+path_out_comp="0836+710_comp3.fits"
 #=====================================================
 #             Definitions for functions
 #=====================================================
@@ -67,7 +67,7 @@ def median(a): # a: array of matrices
 	
 	return c
 
-def twoD_Gaussian((x, y), amplitude,amplitude2,amplitude3, xo, yo, sigma_x,sigma_xo,sigma_xoo, sigma_y,sigma_yo,sigma_oo, theta, offset):
+def twoD_Gaussian((x, y), amplitude,amplitude2,amplitude3, xo, yo, sigma_x,sigma_xo,sigma_xoo, sigma_y,sigma_yo,sigma_yoo, theta, offset):
     xo = float(xo)
     yo = float(yo) 
     a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
@@ -85,7 +85,7 @@ def twoD_Gaussian((x, y), amplitude,amplitude2,amplitude3, xo, yo, sigma_x,sigma
                             + ccc*((y-yo)**2)))
     return g.ravel()
 
-def twoD_Gaussian_norav((x, y), amplitude,amplitude2,amplitude3, xo, yo, sigma_x,sigma_xo,sigma_xoo, sigma_y,sigma_yo,sigma_oo, theta, offset):
+def twoD_Gaussian_norav((x, y), amplitude,amplitude2,amplitude3, xo, yo, sigma_x,sigma_xo,sigma_xoo, sigma_y,sigma_yo,sigma_yoo, theta, offset):
     xo = float(xo)
     yo = float(yo) 
     a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
@@ -136,7 +136,7 @@ thet=60 #position angle of both 2d gauss in deg
 
 amp=6 #Amplitude of max position
 ampo=-1 #Amplitude of max position
-ampoo=4
+ampoo=-4
 sigm1=1.8 #width of first 1d gauss
 sigm2=2.3 #width of second 1d gauss
 sigm1o=3 #width of first 1d gauss
@@ -207,7 +207,7 @@ x, y=np.meshgrid(x, y)
 
 #popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,p0=(amp,ampo,x_max,y_max,sigm1,sigm1o,sigm2,sigm2o,thet,tval))
 
-popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,maxfev=100000,p0=(amp,ampo,ampoo,x_max,y_max,sigm1,sigm1o,sigm1oo,sigm2,sigm2o,sigm2oo,thet,tval),bounds=([amp_min,ampo_min,ampoo_min, x_max_min, y_max_min, sigm1_min,sigm1o_min,sigm1oo_min, sigm2_min,sigm2o_min,sigm2oo_min, thet_min, tval_min],[amp_max,ampo_max,ampoo_max, x_max_max, y_max_max, sigm1_max,sigm1o_max,sigm1oo_max, sigm2_max,sigm2o_max, sigm2oo_max thet_max, tval_max]))
+popt, pcov = opt.curve_fit(twoD_Gaussian, (x,y), dataset,maxfev=100000,p0=(amp,ampo,ampoo,x_max,y_max,sigm1,sigm1o,sigm1oo,sigm2,sigm2o,sigm2oo,thet,tval),bounds=([amp_min,ampo_min,ampoo_min, x_max_min, y_max_min, sigm1_min,sigm1o_min,sigm1oo_min, sigm2_min,sigm2o_min,sigm2oo_min, thet_min, tval_min],[amp_max,ampo_max,ampoo_max, x_max_max, y_max_max, sigm1_max,sigm1o_max,sigm1oo_max, sigm2_max,sigm2o_max, sigm2oo_max, thet_max, tval_max]))
 data_fitted = twoD_Gaussian_norav((x, y), *popt)
 
 resid_img=datasetr-data_fitted
@@ -222,8 +222,8 @@ if os.path.isfile(path_out):
 if os.path.isfile(path_out_comp):
 	os.system("rm " + path_out_comp)
 	
-#pyfits.writeto(path_out, dataset_out, header)
-#pyfits.writeto(path_out_comp, dataset_out_comp, header)
+pyfits.writeto(path_out, dataset_out, header)
+pyfits.writeto(path_out_comp, dataset_out_comp, header)
 
 
 

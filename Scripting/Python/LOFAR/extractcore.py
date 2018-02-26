@@ -8,7 +8,7 @@
 #          Loading necessary packages
 #====================================================
 
-import pyfits
+import astropy.io.fits as pyfits
 import os
 import numpy as np
 from astropy.time import Time
@@ -24,8 +24,8 @@ from matplotlib.mlab import bivariate_normal
 #====================================================
 
 path_in="0836+710_stacked_hba.fits"
-path_out="0836+710_resid.fits"
-path_out_comp="0836+710_comp.fits"
+path_out="0836+710_resid1.fits"
+path_out_comp="0836+710_comp1.fits"
 #=====================================================
 #             Definitions for functions
 #=====================================================
@@ -141,14 +141,14 @@ print pcov
 #fig, ax = plt.subplots(1, 1)
 plt.figure("Fitfunction"); plt.imshow(data_fitted,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
 plt.figure("Initial Data"); plt.imshow(datasetr,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
-plt.figure("Residual"); plt.imshow(resid_img,norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis();plt.show()
+plt.figure("Residual"); plt.imshow(resid_img,cmap="nipy_spectral",norm=matplotlib.colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis();plt.show()
 if os.path.isfile(path_out):
 	os.system("rm " + path_out)
 if os.path.isfile(path_out_comp):
 	os.system("rm " + path_out_comp)
 	
-#pyfits.writeto(path_out, dataset_out, header)
-#pyfits.writeto(path_out_comp, dataset_out_comp, header)
+pyfits.writeto(path_out, dataset_out, header)
+pyfits.writeto(path_out_comp, dataset_out_comp, header)
 
 
 
