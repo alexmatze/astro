@@ -70,6 +70,12 @@ def median(a): # a: array of matrices
 	
 	return c
 
+def linear1d((x),m,t):
+    m = float(m)
+    t = float(t)
+    y = m*x+t
+    return y
+
 def powerlaw((x),a,k):
     a = float(a)
     k = float(k)
@@ -187,12 +193,22 @@ for y in range(datacubes_np.shape[1]):
         for x in range(datacubes_np.shape[2]):
             if (fromx<x<tox):
                 values=[]
+                linvals=[]
+                yvals=[]
                 for vals in range(datacubes_np.shape[0]):
-                    values.append(datacubes_np[vals,y,x])
-
-                popt, pcov = opt.curve_fit(powerlaw, freqs, values, maxfev=200000)
-                print y,x,popt[1]
-                spixmap[y,x] = popt[1]
+                    if datacubes_np[vals,y,x]>0:
+                       values.append(datacubes_np[vals,y,x])
+                       linvals.append(np.log10(datacubes_np[vals,y,x]))
+                       yvals.append(freqs[vals])
+                if len(yvals)>2:
+                   popt, pcov = opt.curve_fit(powerlaw, yvals, values, maxfev=200000)
+                   #popt, pcov = opt.curve_fit(powerlaw, freqs, values, maxfev=200000)
+                   print y,x,popt[1]
+                   print values
+                   print linvals
+                   spixmap[y,x] = popt[1]
+                else:
+                   spixmap[y,x] = 19000.0
 
 if os.path.isfile(path_out):
    os.system("rm " + path_out)
