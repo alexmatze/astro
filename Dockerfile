@@ -172,6 +172,11 @@ RUN cd ${INSTALLDIR} && git clone https://github.com/lofar-astron/RMextract.git
 RUN cd ${INSTALLDIR}/RMextract && python setup.py build && python setup.py install 
 
 
+#
+# Install - Prefactor
+#
+RUN cd ${INSTALLDIR} && git clone https://github.com/lofar-astron/prefactor.git
+
 
 #
 # WSClean install
