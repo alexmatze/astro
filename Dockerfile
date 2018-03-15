@@ -166,8 +166,10 @@ RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo make install
 
 
 #
-# Fix Python .egg folders
+# Install - RMextract
 #
+RUN cd ${INSTALLDIR} && git clone https://github.com/lofar-astron/RMextract.git
+RUN cd ${INSTALLDIR}/RMextract && python setup.py build && python setup.py install 
 
 
 
