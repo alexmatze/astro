@@ -175,7 +175,7 @@ RUN cd ${INSTALLDIR}/RMextract && sudo python setup.py build && sudo python setu
 #
 # Install - Prefactor
 #
-RUN cd ${INSTALLDIR} && git clone https://github.com/lofar-astron/prefactor.git
+RUN cd ${INSTALLDIR}/lofar && git clone https://github.com/lofar-astron/prefactor.git
 
 
 #
@@ -203,8 +203,10 @@ RUN sudo sh -c 'echo export PATH=\${PATH:+:\$PATH}:\${INSTALLDIR}/casacore/bin  
 RUN sudo sh -c 'echo export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}:\${INSTALLDIR}/casacore/lib  >> /usr/bin/init-lofar.sh'
 RUN sudo sh -c "echo source /usr/bin/init-lofar.sh >> /usr/bin/init.sh"
 
-
-
+#
+# fix some miner stuff
+#
+RUN sudo chmod -R 777 /home/lofar/opt/lofar/var/run
 
 
 #
