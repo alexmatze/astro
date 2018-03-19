@@ -160,7 +160,7 @@ n_fitslist=len(fitslist)
 datacubes=[]
 headercubes=[]
 
-for i in range(n_fitslist):
+for i in range(n_fitslist):  #Read-in the Fits-Files and sort images and headers in lists
     path=fitslist[i]
     path=path.rstrip()
     hdulist=pyfits.open(path) * 1
@@ -170,9 +170,9 @@ for i in range(n_fitslist):
     headercubes.append(header)
 
 datacubes_np=np.array(datacubes)
-freqs=[]
 
-#build grid
+
+#build the output grid
 x_size=headercubes[0]["NAXIS1"]
 y_size=headercubes[0]["NAXIS2"]
 xx=np.linspace(0,x_size-1,x_size)
@@ -184,11 +184,11 @@ spixmap=spixmap * 0.0 + 20000.0
 
 
 
-
-for vals in range(datacubes_np.shape[0]):
+freqs=[]
+for vals in range(datacubes_np.shape[0]): #build list of central frequencies pulled form the headers
     freqs.append(headercubes[vals]['CRVAL3'])
 
-for y in range(datacubes_np.shape[1]):
+for y in range(datacubes_np.shape[1]): #go from pixel pos to pixel pos and fit powerlaw by freq.
     if (fromy<y<toy):
         for x in range(datacubes_np.shape[2]):
             if (fromx<x<tox):
@@ -210,7 +210,7 @@ for y in range(datacubes_np.shape[1]):
                 else:
                    spixmap[y,x] = 19000.0
 
-if os.path.isfile(path_out):
+if os.path.isfile(path_out): #Check if data already exists if yes, remove
    os.system("rm " + path_out)
 
     

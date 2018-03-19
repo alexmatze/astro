@@ -169,7 +169,7 @@ RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo make install
 # Install - RMextract
 #
 RUN cd ${INSTALLDIR} && git clone https://github.com/lofar-astron/RMextract.git
-RUN cd ${INSTALLDIR}/RMextract && python setup.py build && python setup.py install 
+RUN cd ${INSTALLDIR}/RMextract && sudo python setup.py build && sudo python setup.py install
 
 
 #
