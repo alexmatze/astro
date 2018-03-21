@@ -171,11 +171,24 @@ RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo make install
 RUN cd ${INSTALLDIR} && git clone https://github.com/lofar-astron/RMextract.git
 RUN cd ${INSTALLDIR}/RMextract && sudo python setup.py build && sudo python setup.py install
 
+#
+# Install - losoto
+#
+RUN cd ${INSTALLDIR} && git clone https://github.com/revoltek/losoto.git && cd losoto && git reset --hard 0.5-24-gca38e4b
+
+
+
 
 #
 # Install - Prefactor
 #
 RUN cd ${INSTALLDIR}/lofar && git clone https://github.com/lofar-astron/prefactor.git
+
+#
+# Install - Long-Baseline Pipeline
+#
+RUN cd ${INSTALLDIR} && git clone https://github.com/lmorabit/lofar-lb.git
+RUN cd ${INSTALLDIR}/lofar-lb && git submodule init && git submodule update
 
 
 #
@@ -199,7 +212,9 @@ RUN cd ${INSTALLDIR}/wsclean/wsclean-2.4/build && sudo make install
 #
 RUN sudo sh -c 'echo source \${INSTALLDIR}/lofar/lofarinit.sh  >> /usr/bin/init-lofar.sh'
 RUN sudo sh -c 'echo export PYTHONPATH=\${PYTHONPATH:+:\${PYTHONPATH}}:\${INSTALLDIR}/python-casacore/lib/python2.7/site-packages/  >> /usr/bin/init-lofar.sh'
+RUN sudo sh -c 'echo export PYTHONPATH=\${PYTHONPATH:+:\${PYTHONPATH}}:\${INSTALLDIR}/losoto  >> /usr/bin/init-lofar.sh'
 RUN sudo sh -c 'echo export PATH=\${PATH:+:\$PATH}:\${INSTALLDIR}/casacore/bin  >> /usr/bin/init-lofar.sh'
+RUN sudo sh -c 'echo export PATH=\${PATH:+:\$PATH}:\${INSTALLDIR}/losoto/bin  >> /usr/bin/init-lofar.sh'
 RUN sudo sh -c 'echo export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}:\${INSTALLDIR}/casacore/lib  >> /usr/bin/init-lofar.sh'
 RUN sudo sh -c "echo source /usr/bin/init-lofar.sh >> /usr/bin/init.sh"
 
