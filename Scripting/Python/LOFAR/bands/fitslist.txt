@@ -1,11 +1,8 @@
-./126/band7_resid2.fits
 ./129/band8_resid2.fits
 ./132/band9_resid2.fits
 ./135/band10_resid2.fits
 ./138/band11_resid2.fits
-./141/band12_resid2.fits
 ./144/band13_resid2.fits
 ./151/band2_resid2.fits
-./154/band3_resid2.fits
 ./157/band4_resid2.fits
 ./160/band5_resid2.fits
