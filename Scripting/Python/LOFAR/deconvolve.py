@@ -52,6 +52,7 @@ image = neu #[0][0] #Jy
 bmaj = hdul[0].header['BMAJ'] #deg
 bmin = hdul[0].header['BMIN'] #deg
 bpa = hdul[0].header['BPA'] #deg
+bpar = bpa * np.pi /180.
 
 #readin of y-x-Sizes
 x_size=hdul[0].header["NAXIS1"]
@@ -75,7 +76,7 @@ name_default = hdul[0].header['OBJECT']
 if name == None:
 	name = name_default
 #build image of beam with same imagesize as image
-beam_img=twoD_Gaussian(image,1,center_x,center_y,bmin/scale, bmaj/scale, bpa,0)
+beam_img=twoD_Gaussian(image,1,center_x,center_y,bmin/scale, bmaj/scale, bpar,0)
 
 
 image_decon=deconvolve(image,beam_img)
