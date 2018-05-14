@@ -9,8 +9,8 @@ from dateutil import parser
 #######################################
 #############USER-INTERFACE############
 #######################################
-band_name="5"
-freq_name="160"
+band_name="4"
+freq_name="157"
 
 
 
@@ -43,7 +43,7 @@ contour_alpha = 1 # Transparency
 contour_width = 0.5 # contour linewidth
 
 #image colormap
-im_colormap =False # if True a image colormap is done
+im_colormap =True # if True a image colormap is done
 im_color = 'viridis' #string for matplotlib colormap
 
 #model overplot
