@@ -73,8 +73,7 @@ date = date.strftime('%Y-%m-%d')
 
 #readin default Source name as saved in fitsfile and set sourcename
 name_default = hdul[0].header['OBJECT']
-if name == None:
-	name = name_default
+
 #build image of beam with same imagesize as image
 beam_img=twoD_Gaussian(image,1,center_x,center_y,bmin/scale, bmaj/scale, bpar,0)
 
