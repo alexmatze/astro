@@ -10,17 +10,19 @@ from dateutil import parser
 #############USER-INTERFACE############
 #######################################
 band_name="4"
-freq_name="157"
+freq_name="126-160"
 
 
 
 #input path of the interferometric FITS-file, and the model-fitsfile and output path of the resulting image
-input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/bands/'+freq_name+'/band'+band_name+'_resid2.fits'
+#input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/bands/'+freq_name+'/band'+band_name+'_resid2.fits'
+input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_resid2.fits'
 input_path_model = input_path_image
 output_path = './'+freq_name+'.pdf'
 
 #Source name
-name = '0836+710 @'+freq_name+' MHz (Band '+band_name+')'
+#name = '0836+710 @'+freq_name+' MHz (Band '+band_name+')'
+name = '0836+710 @'+freq_name+' MHz'
 name_color = 'Grey' # color in which the source-name and the date is written
 
 #noise and lowest level-cut (sigma)
