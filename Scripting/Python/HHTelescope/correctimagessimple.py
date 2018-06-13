@@ -139,7 +139,7 @@ y_size=darks_head[0]["NAXIS2"]
 exp_time_darks=darks_head[0]["EXPTIME"]
 exp_time_flats=flats_head[0]["EXPTIME"]
 
-if os.path.isfile("./geterrorimage/median_darks_b.fits"):
+if os.path.isfile("./geterrorimage/median_darks.fits"):
         print("Median flats and darks already exist and are read in.")
 
         hdulist=pyfits.open("./geterrorimage/median_darks.fits") * 1
