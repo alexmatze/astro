@@ -161,7 +161,9 @@ else:
         new_head_d=darks_head[0]
         new_head_f=flats_head[0]
         new_head_d["EXPTIME"]= 1.0
+        new_head_d["EXPOSURE"]= 1.0
         new_head_f["EXPTIME"]= 1.0
+        new_head_f["EXPOSURE"]= 1.0
         pyfits.writeto("./geterrorimage/median_darks.fits",median_darks,new_head_d)
         pyfits.writeto("./geterrorimage/median_flats.fits",median_flats,new_head_f)
         print("Medians flats and darks were calculated and saved.")
@@ -225,8 +227,8 @@ for i in range(n_data):
         # Define corrected darks and flats as well as their errors
         corr_darks= median_darks
         corr_darks_error = np.sqrt(corr_darks) * 1
-        corr_flats= median_flats
-        corr_flats_error = np.sqrt(corr_flats) * 1
+        corr_flats= median_flats - corr_darks
+        corr_flats_error = np.sqrt(median_flats + corr_darks_error**2) * 1
 
         # Correct the dataset for darks and flats and propagate the error
         dataset = (dataset - corr_darks) / corr_flats
