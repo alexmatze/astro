@@ -221,14 +221,16 @@ for i in range(n_data):
                 first_mjd=time_mjd
 
         # Define corrected darks and flats as well as their errors
-        corr_darks= median_darks_b + (median_darks_a - median_darks_b) * (time_mjd-first_mjd)/(final_mjd-first_mjd)
-        corr_darks_error = np.sqrt((median_darks_b_error * (1 - (time_mjd-first_mjd)/(final_mjd-first_mjd)))**2 + (median_darks_a_error * ((time_mjd-first_mjd)/(final_mjd-first_mjd)))**2)
-        corr_flats= median_flats_b + (median_flats_a - median_flats_b) * (time_mjd-first_mjd)/(final_mjd-first_mjd)
-        corr_flats_error = np.sqrt((median_flats_b_error * (1 - (time_mjd-first_mjd)/(final_mjd-first_mjd)))**2 + (median_flats_a_error * ((time_mjd-first_mjd)/(final_mjd-first_mjd)))**2)
+        corr_darks= median_darks
+        corr_darks_error = np.sqrt(corr_darks) * 1
+        corr_flats= median_flats
+        corr_flats_error = np.sqrt(corr_flats) * 1
 
         # Correct the dataset for darks and flats and propagate the error
         dataset = (dataset - corr_darks) / corr_flats
         dataset_error = (1/corr_flats)*np.sqrt(corr_darks_error**2 + dataset_error**2 + (dataset*corr_flats_error)**2)
+
+        # Fix dead pixels by next-neighbours information
         dataset = extrapolate(dataset, 1654, 160)
         dataset = extrapolate(dataset, 681, 3476)
 
