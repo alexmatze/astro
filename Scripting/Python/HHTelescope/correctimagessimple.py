@@ -198,9 +198,11 @@ for i in range(n_data):
         path=path.rstrip()
         print("Current image:")
         print(path)
-        corr_path="./geterrorimage/cor_"+path
-        error_path="./geterrorimage/error_"+path
-        bias_path="./geterrorimage/bias_"+path
+        pathstringarr=path.split("/")
+        filename=pathstringarr[-1]
+        corr_path="./geterrorimage/cor_"+filename
+        error_path="./geterrorimage/error_"+filename
+        bias_path="./geterrorimage/bias_"+filename
         hdulist=pyfits.open(path) * 1
         dataset=hdulist[0].data *1
         #header=hdulist[0].header *1
