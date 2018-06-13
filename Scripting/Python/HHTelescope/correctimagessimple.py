@@ -24,13 +24,13 @@ from astropy.time import Time
 #     Loading absolute and temporary variables
 #====================================================
 
-path_darks_b="darks.txt"
-list_darks_b=list(open(path_darks,"r"))
-n_darks_b=len(list_darks)
+path_darks="darks.txt"
+list_darks=list(open(path_darks,"r"))
+n_darks=len(list_darks)
 
-path_flats_b="flats.txt"
-list_flats_b=list(open(path_flats,"r"))
-n_flats_b=len(list_flats)
+path_flats="flats.txt"
+list_flats=list(open(path_flats,"r"))
+n_flats=len(list_flats)
 
 path_data="data.txt"
 list_data=list(open(path_data,"r"))
