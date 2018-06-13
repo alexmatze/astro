@@ -509,8 +509,8 @@ for i in range(n_data):
 
                 if os.path.isfile(bias_path):
                         os.system("rm " + bias_path)
-                new_head_b=darks_head_b[0]
-                pyfits.writeto(bias_path,bias_image,new_head_b)
+                new_head=darks_head[0]
+                pyfits.writeto(bias_path,bias_image,new_head)
 
         # Substract bias from the data
         dataset = dataset - bias_image
