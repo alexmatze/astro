@@ -550,5 +550,5 @@ for i in range(n_data):
 median_data_image=median(median_data_array)
 
 if os.path.isfile(median_data_path):
-        os.system("rm " + error_path)
+        os.system("rm " + median_data_path)
 pyfits.writeto(median_data_path, median_data_image, header)
