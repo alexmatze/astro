@@ -193,6 +193,9 @@ box = 201  #Boxgroesse ungerade waehlen!
 radius = int((box - 1) * 0.5)
 over = 20
 
+median_data_array=[]
+median_data_path="./geterrorimage/median_corr_datastack.fits"
+
 for i in range(n_data):
         print(i)
 
@@ -538,6 +541,14 @@ for i in range(n_data):
                 os.system("rm " + corr_path)
         pyfits.writeto(corr_path, dataset, header)
 
+        median_data_array.append(dataset)
+
         if os.path.isfile(error_path):
                 os.system("rm " + error_path)
         pyfits.writeto(error_path, dataset_error, header)
+
+median_data_image=np.median(median_data_array)
+
+if os.path.isfile(median_data_path):
+        os.system("rm " + error_path)
+pyfits.writeto(median_data_path, median_data_image, header)
