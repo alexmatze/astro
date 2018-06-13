@@ -517,7 +517,7 @@ for i in range(n_data):
                 pyfits.writeto(bias_path,bias_image,new_head)
 
         # Substract bias from the data
-        #dataset = dataset - bias_image
+        dataset = dataset - bias_image
 
         # Aeussere Pixel abschneiden, da das bias_image nur das Zentrum modelliert
         x3list = range(0,x_size)
