@@ -531,6 +531,9 @@ for i in range(n_data):
 
 
 
+        dataset = dataset * exp_time
+        dataset_error = dataset_error * exp_time
+        
         if os.path.isfile(corr_path):
                 os.system("rm " + corr_path)
         pyfits.writeto(corr_path, dataset, header)
