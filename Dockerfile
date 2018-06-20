@@ -50,9 +50,8 @@ RUN apt-get -y install  g++ gcc gfortran
 RUN apt-get -y install libblas-dev libfftw3-dev python-dev liblapack-dev libpng-dev libxml2-dev python-numpy libreadline-dev libncurses-dev python-scipy liblog4cplus-dev
 RUN apt-get -y install libboost-dev libboost-python-dev libboost-thread-dev libboost-system-dev libboost-filesystem-dev libboost-iostreams-dev libboost-signals-dev
 RUN apt-get -y install bison bzip2 flex python-xmlrunner python-pip gettext doxygen libgsl-dev libhdf5-dev libboost-test-dev
-RUN pip install --upgrade pip
-RUN pip install pyfits pywcs python-monetdb unittest2 matplotlib astropy aplpy
-RUN cd /usr/lib/python2.7/dist-packages/numpy/core && ln -s `ls multiarray.*.so | head`  multiarray.so
+
+
 
 #
 # Additional stuff
@@ -67,7 +66,12 @@ RUN service ssh restart
 RUN echo "defshell -bash" > ~/.screenrc
 
 
-
+RUN pip install --upgrade pip
+RUN pip install pyfits pywcs python-monetdb unittest2 matplotlib astropy aplpy
+RUN pip install functools32
+RUN pip install tornado
+RUN pip install tables pp progressbar cython
+RUN cd /usr/lib/python2.7/dist-packages/numpy/core && ln -s `ls multiarray.*.so | head`  multiarray.so
 
 
 #
