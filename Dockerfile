@@ -35,7 +35,8 @@ ENV UID 1000
 #
 # build environment
 #
-ENV J 2
+ENV J 8
+RUN export ARFLAGS=rvU
 
 #
 # base
