@@ -164,7 +164,7 @@ RUN echo "log4cplus is installed from the repositories"
 # install-casa
 #
 RUN mkdir -p ${INSTALLDIR}/casa
-RUN cd && wget https://casa.nrao.edu/download/distro/linux/release/el7/casa-release-5.3.0-143.el7.tar.gz && tar xzvf casa-release-5.3.0-143.el7.tar.gz --directory ${INSTALLDIR}/casa
+RUN cd ${INSTALLDIR}/casa && wget https://casa.nrao.edu/download/distro/linux/release/el7/casa-release-5.3.0-143.el7.tar.gz && tar xzvf casa-release-5.3.0-143.el7.tar.gz --directory ${INSTALLDIR}/casa
 
 
 
