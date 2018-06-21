@@ -163,11 +163,9 @@ RUN echo "log4cplus is installed from the repositories"
 #
 # install-casa
 #
-RUN mkdir -p ${INSTALLDIR}/casa/build
-RUN cd ${INSTALLDIR}/casa && git clone https://open-bitbucket.nrao.edu/scm/casa/casa.git
-RUN cd ${INSTALLDIR}/casa/build && cmake -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/casa/ -DCASACORE_ROOT_DIR=${INSTALLDIR}/casacore -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio -DBUILD_SHARED_LIBS=ON ../casa
-RUN cd ${INSTALLDIR}/casa/build && make -j ${J}
-RUN cd ${INSTALLDIR}/casa/build && make install
+RUN mkdir -p ${INSTALLDIR}/casa
+RUN cd && wget https://casa.nrao.edu/download/distro/linux/release/el7/casa-release-5.3.0-143.el7.tar.gz && tar xzvf casa-release-5.3.0-143.el7.tar.gz --directory ${INSTALLDIR}/casa
+
 
 
 
