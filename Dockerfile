@@ -159,13 +159,25 @@ RUN cd ${INSTALLDIR}/aoflagger/build && make install
 #
 RUN echo "log4cplus is installed from the repositories"
 
+
+#
+# install-casa
+#
+RUN mkdir -p ${INSTALLDIR}/casa/build
+RUN cd ${INSTALLDIR}/casa && git clone https://open-bitbucket.nrao.edu/scm/casa/casa.git
+RUN cd ${INSTALLDIR}/casa/build && cmake -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/casa/ -DCASACORE_ROOT_DIR=${INSTALLDIR}/casacore -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio -DBUILD_SHARED_LIBS=ON ../casa
+RUN cd ${INSTALLDIR}/casa/build && make -j ${J}
+RUN cd ${INSTALLDIR}/casa/build && make install
+
+
+
 #
 # install-lofar
 #
 RUN mkdir -p ${INSTALLDIR}/lofar/build/gnu_opt
 RUN if [ "${LOFAR_VERSION}" = "latest" ]; then cd ${INSTALLDIR}/lofar && svn --non-interactive -q co https://svn.astron.nl/LOFAR/trunk src; fi
 RUN if [ "${LOFAR_VERSION}" != "latest" ]; then cd ${INSTALLDIR}/lofar && svn --non-interactive -q co https://svn.astron.nl/LOFAR/tags/LOFAR-Release-${LOFAR_VERSION} src; fi
-RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo cmake -DBUILD_PACKAGES=Offline -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/lofar/ -DWCSLIB_ROOT_DIR=${INSTALLDIR}/wcslib/ -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio/ -DCASAREST_ROOT_DIR=${INSTALLDIR}/casarest/ -DCASACORE_ROOT_DIR=${INSTALLDIR}/casacore/ -DAOFLAGGER_ROOT_DIR=${INSTALLDIR}/aoflagger/ -DLOG4CPLUS_ROOT_DIR=${INSTALLDIR}/log4cplus/ -DUSE_OPENMP=True ${INSTALLDIR}/lofar/src/
+RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo cmake -DBUILD_PACKAGES=Offline -DCMAKE_INSTALL_PREFIX=${INSTALLDIR}/lofar/ -DWCSLIB_ROOT_DIR=${INSTALLDIR}/wcslib/ -DCFITSIO_ROOT_DIR=${INSTALLDIR}/cfitsio/ -DCASAREST_ROOT_DIR=${INSTALLDIR}/casarest/ -DCASACORE_ROOT_DIR=${INSTALLDIR}/casacore/ -DAOFLAGGER_ROOT_DIR=${INSTALLDIR}/aoflagger/ -DLOG4CPLUS_ROOT_DIR=${INSTALLDIR}/log4cplus/ -DUSE_OPENMP=True ${INSTALLDIR}/lofar/src/ -CASA_ROOT_DIR=${INSTALLDIR}/casa/
 RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo make -j ${J}
 RUN cd ${INSTALLDIR}/lofar/build/gnu_opt && sudo make install
 
