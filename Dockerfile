@@ -73,7 +73,7 @@ RUN pip install functools32
 RUN pip install tornado
 RUN pip install tables pp progressbar cython
 RUN cd /usr/lib/python2.7/dist-packages/numpy/core && ln -s `ls multiarray.*.so | head`  multiarray.so
-
+RUN pip install https://github.com/lofar-astron/PyBDSF/archive/v1.8.14.tar.gz
 
 #
 # setup-account
