@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.fft import *
 import matplotlib.pyplot as plt
 import astropy.io.fits as fits
 import matplotlib.colors as colors
@@ -7,12 +8,14 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 import datetime
 from dateutil import parser
 from scipy import fftpack
+import os
+import astropy.io.fits as pyfits
 
 #######################################
 #############USER-INTERFACE############
 #######################################
-input_path_image=''
-output_path_image=''
+input_path_image='0836+710_resid2.fits'
+output_path_image='0836+710_resid2_decon.fits'
 
 
 
@@ -31,6 +34,13 @@ def deconvolve(star, psf):
     psf_fft = fftpack.fftshift(fftpack.fftn(psf))
     return fftpack.fftshift(fftpack.ifftn(fftpack.ifftshift(star_fft/psf_fft)))
 
+def ddeconvolve(star, psf, epsilon):
+    starfft= fftn(star)
+    psffft= fftn(psf) + epsilon
+    deconvolved = ifftn(starfft/psffft)
+    deconvolved = np.abs(deconvolved)
+    return(deconvolved)
+
 def twoD_Gaussian((x, y), amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
     xo = float(xo)
     yo = float(yo)
@@ -39,7 +49,28 @@ def twoD_Gaussian((x, y), amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
     c = (np.sin(theta)**2)/(2*sigma_x**2) + (np.cos(theta)**2)/(2*sigma_y**2)
     g = offset + amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo)
                             + c*((y-yo)**2)))
-    return g.ravel() / g.sum()
+    return g.ravel()
+
+def set0tomin64(img):
+    for y in range(len(img)):
+        for x in range(len(img[0])):
+            if img[y,x] < np.finfo(np.float32).tiny:
+                img[y,x] = np.finfo(np.float32).tiny
+    return img
+	
+def setinfto064(img):
+    for y in range(len(img)):
+        for x in range(len(img[0])):
+            if np.isinf(img[y,x]):
+                img[y,x] = 0.
+    return img
+	
+def setnanto064(img):
+    for y in range(len(img)):
+        for x in range(len(img[0])):
+            if np.isnan(img[y,x]):
+                img[y,x] = 0.
+    return img
 
 
 #Data-readin
@@ -75,7 +106,34 @@ date = date.strftime('%Y-%m-%d')
 name_default = hdul[0].header['OBJECT']
 
 #build image of beam with same imagesize as image
-beam_img=twoD_Gaussian(image,1,center_x,center_y,bmin/scale, bmaj/scale, bpar,0)
+beam_img=image * 0.
+for x in range(x_size):
+	for y in range(y_size):
+		beam_img[y,x]=twoD_Gaussian((x,y),1,center_x,center_y,bmin/scale, bmaj/scale, -bpar,0)
+beam_img = beam_img / beam_img.sum()
+
+#fix arrays to np-def
+image=set0tomin64(np.array(image,dtype=np.float64))
+beam_img=set0tomin64(np.array(beam_img,dtype=np.float64))
 
 
-image_decon=deconvolve(image,beam_img)
+
+#plt.figure("Beam"); plt.imshow(beam_img,norm=colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
+#plt.show()
+
+
+
+if os.path.isfile(output_path_image):
+	os.system("rm " + output_path_image)
+
+pyfits.writeto(output_path_image,beam_img)
+
+image_decon=ddeconvolve(image,beam_img,0)
+
+real_image_decon = np.real(image_decon)
+real_image_decon=setinfto064(real_image_decon)
+real_image_decon=setnanto064(real_image_decon)
+real_image_decon=set0tomin64(real_image_decon)
+
+plt.figure("Beam"); plt.imshow(real_image_decon,norm=colors.LogNorm());plt.colorbar();plt.gca().invert_yaxis()
+plt.show()

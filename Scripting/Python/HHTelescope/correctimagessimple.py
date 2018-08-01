@@ -541,7 +541,7 @@ for i in range(n_data):
                 os.system("rm " + corr_path)
         pyfits.writeto(corr_path, dataset, header)
 
-        median_data_array.append(dataset)
+	median_data_array.append(dataset)
 
         if os.path.isfile(error_path):
                 os.system("rm " + error_path)
