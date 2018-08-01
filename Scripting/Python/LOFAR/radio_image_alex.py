@@ -10,13 +10,17 @@ from dateutil import parser
 #############USER-INTERFACE############
 #######################################
 band_name="4"
-freq_name="126-160"
+#freq_name="126-160"
+#freq_name="126-160_Gaussfit"
+freq_name="126-160_stack"
 
 
 
 #input path of the interferometric FITS-file, and the model-fitsfile and output path of the resulting image
 #input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/bands/'+freq_name+'/band'+band_name+'_resid2.fits'
-input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_resid2.fits'
+#input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_resid2.fits'
+#input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_comp2.fits'
+input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_stacked_hba.fits'
 input_path_model = input_path_image
 output_path = './'+freq_name+'.pdf'
 
@@ -27,14 +31,14 @@ name_color = 'Grey' # color in which the source-name and the date is written
 
 #noise and lowest level-cut (sigma)
 noise = 0 #[JY] if noise <= 0, the noise for the hole map from difmap is used
-sigma = 3 # if sigma <= 0, 3 is used
+sigma = 3.1 # if sigma <= 0, 3 is used
 
 #unit-selection,map limits and axe ratio
 unit = 'arcsec' #possible units: 'mas', 'arcsec', 'arcmin' and 'deg'. default (any other string) value is 'deg'. Limits are controlled in this unit.
-ra_min = -5
-ra_max = 5
-dec_min = -5
-dec_max =5
+ra_min = -2.5
+ra_max = 2.5
+dec_min = -2.5
+dec_max =2.5
 
 #image look tuning
 #contour plot
