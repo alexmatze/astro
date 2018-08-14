@@ -182,7 +182,7 @@ plt.ylabel('Relative DEC ['+unit+']')
 if im_colormap == True:
 	col = ax.imshow(image, cmap=im_color,norm=colors.SymLogNorm(linthresh=level0, linscale=0.5,vmin=-level0, vmax=0.5*np.max(image)),extent=extent,origin='lower')
 	divider = make_axes_locatable(ax)
-	cax = divider.append_axes("right", size="5%", pad=0.01)
+	cax = divider.append_axes("right", size="5%", pad=0.05)
 	cbar = fig.colorbar(col, use_gridspec=True,cax=cax)
 	cbar.set_label('Flux Density [Jy]')
 
@@ -263,4 +263,4 @@ plt.tight_layout()
 
 #print(g_pos)
 # save image
-plt.savefig(output_path)
+plt.savefig(output_path,bbox_inches='tight')
