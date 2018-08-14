@@ -16,7 +16,7 @@ def phi_d(theta):
 	return theta-deltatrig(theta);
 
 brange = np.linspace(0.12557,0.12605,num=int((0.12605-0.12557)/0.00001))
-theta1 = np.linspace(-1,5,num=1000)
+theta1 = np.linspace(-1,5.5,num=1000)
 
 
 for i in range(len(brange)):
