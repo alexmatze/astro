@@ -90,7 +90,7 @@ auto_noise = hdul[0].header['NOISE']
 
 #readin of the observation date
 date = parser.parse(hdul[0].header['DATE-OBS'])
-date = date.strftime('%Y-%m-%d')
+date = ""#date.strftime('%Y-%m-%d')
 
 #readin default Source name as saved in fitsfile and set sourcename
 name_default = hdul[0].header['OBJECT']
@@ -182,7 +182,7 @@ plt.ylabel('Relative DEC ['+unit+']')
 if im_colormap == True:
 	col = ax.imshow(image, cmap=im_color,norm=colors.SymLogNorm(linthresh=level0, linscale=0.5,vmin=-level0, vmax=0.5*np.max(image)),extent=extent,origin='lower')
 	divider = make_axes_locatable(ax)
-	cax = divider.append_axes("right", size="5%", pad=0.05)
+	cax = divider.append_axes("right", size="5%", pad=0.01)
 	cbar = fig.colorbar(col, use_gridspec=True,cax=cax)
 	cbar.set_label('Flux Density [Jy]')
 
