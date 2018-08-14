@@ -10,9 +10,9 @@ from dateutil import parser
 #############USER-INTERFACE############
 #######################################
 band_name="4"
-#freq_name="126-160"
+freq_name="126-160"
 #freq_name="126-160_Gaussfit"
-freq_name="126-160_stack"
+#freq_name="126-160_stack"
 
 
 
