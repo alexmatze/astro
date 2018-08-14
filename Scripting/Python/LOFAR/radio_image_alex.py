@@ -26,7 +26,7 @@ output_path = './'+freq_name+'.pdf'
 
 #Source name
 #name = '0836+710 @'+freq_name+' MHz (Band '+band_name+')'
-name = '0836+710 @'+freq_name+' MHz'
+name = #'0836+710 @'+freq_name+' MHz'
 name_color = 'Grey' # color in which the source-name and the date is written
 
 #noise and lowest level-cut (sigma)
@@ -35,10 +35,10 @@ sigma = 3.1 # if sigma <= 0, 3 is used
 
 #unit-selection,map limits and axe ratio
 unit = 'arcsec' #possible units: 'mas', 'arcsec', 'arcmin' and 'deg'. default (any other string) value is 'deg'. Limits are controlled in this unit.
-ra_min = -2.5
-ra_max = 2.5
+ra_min = -2
+ra_max = 1.5
 dec_min = -2.5
-dec_max =2.5
+dec_max =1.5
 
 #image look tuning
 #contour plot
@@ -184,7 +184,7 @@ if im_colormap == True:
 	divider = make_axes_locatable(ax)
 	cax = divider.append_axes("right", size="5%", pad=0.05)
 	cbar = fig.colorbar(col, use_gridspec=True,cax=cax)
-	cbar.set_label('Fluxdensity [Jy]')
+	cbar.set_label('Flux Density [Jy]')
 
 #contour plot
 if contour == True:
@@ -216,7 +216,7 @@ if contour == True:
 # 		min1_y = g_y[i]+np.cos(-np.pi/180*(g_pos[i]+90))*g_min[i]*0.5
 # 		min2_x = g_x[i]+np.sin(-np.pi/180*(g_pos[i]+90))*g_min[i]*0.5
 # 		min2_y = g_y[i]-np.cos(-np.pi/180*(g_pos[i]+90))*g_min[i]*0.5
-		
+
 
 # 		ax.plot([maj1_x,maj2_x],[maj1_y,maj2_y], color = gauss_color[i], lw = gauss_linewidth)
 # 		ax.plot([min1_x,min2_x],[min1_y,min2_y], color = gauss_color[i], lw = gauss_linewidth)
@@ -264,5 +264,3 @@ plt.tight_layout()
 #print(g_pos)
 # save image
 plt.savefig(output_path)
-
-
