@@ -26,7 +26,7 @@ output_path = './'+freq_name+'.pdf'
 
 #Source name
 #name = '0836+710 @'+freq_name+' MHz (Band '+band_name+')'
-name = #'0836+710 @'+freq_name+' MHz'
+name = '' #'0836+710 @'+freq_name+' MHz'
 name_color = 'Grey' # color in which the source-name and the date is written
 
 #noise and lowest level-cut (sigma)
