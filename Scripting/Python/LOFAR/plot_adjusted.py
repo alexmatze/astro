@@ -15,7 +15,7 @@ def deltatrig(theta):
 def phi_d(theta):
 	return theta-deltatrig(theta);
 
-brange = np.linspace(0.12557,0.128,num=int((0.126-0.12557)/0.00005))
+brange = np.linspace(0.12557,0.12605,num=int((0.12605-0.12557)/0.00001))
 theta1 = np.linspace(-1,5,num=1000)
 
 
@@ -28,8 +28,8 @@ for i in range(len(brange)):
 plt.plot(theta1,theta1,c='Orange', label='bisector')
 plt.plot(theta1,deltatrig(theta1),c='Red', label=r'$\delta^{\prime}$')
 plt.plot(theta1,phi_d(theta1),c='Green', label=r'$\varphi^{\prime}$')
-plt.ylim(0,12)
-plt.xlim(0,12)
+plt.ylim(0,6)
+plt.xlim(0,5.5)
 plt.xlabel(r'$\theta$ [deg]')
 plt.ylabel(r'respective angle [deg]')
 plt.legend()
