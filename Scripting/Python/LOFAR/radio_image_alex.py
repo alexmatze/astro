@@ -10,17 +10,17 @@ from dateutil import parser
 #############USER-INTERFACE############
 #######################################
 band_name="4"
-#freq_name="126-160"
+freq_name="126-160"
 #freq_name="126-160_Gaussfit"
-freq_name="126-160_stack"
+#freq_name="126-160_stack"
 
 
 
 #input path of the interferometric FITS-file, and the model-fitsfile and output path of the resulting image
 #input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/bands/'+freq_name+'/band'+band_name+'_resid2.fits'
-#input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_resid2.fits'
+input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_resid2.fits'
 #input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_comp2.fits'
-input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_stacked_hba.fits'
+#input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_stacked_hba.fits'
 input_path_model = input_path_image
 output_path = './'+freq_name+'.pdf'
 
@@ -47,6 +47,9 @@ contour_color = ['Grey'] #input: array of color-strings if None the contour-colo
 contour_cmap = None #matplotlib colormap string
 contour_alpha = 1 # Transparency
 contour_width = 0.5 # contour linewidth
+#Range of Color/grey scale
+scale_min = -0.0398212879 #if 'None': defined automatically
+scale_max = 1.4932113886 #if 'None': defined automatically
 
 #image colormap
 im_colormap =True # if True a image colormap is done
@@ -75,7 +78,12 @@ clean_linewidth = 0.5 #clean linewidth of the symbol
 #readin image data
 hdul = fits.open(input_path_image)
 neu = hdul[0].data
-image = neu #[0][0] #Jy
+if len(neu)==1:
+	image = neu[0][0]
+else:
+	image = neu
+
+
 
 #readin of the beam
 bmaj = hdul[0].header['BMAJ'] #deg
@@ -178,9 +186,16 @@ plt.gca().invert_xaxis()
 plt.xlabel('Relative RA ['+unit+']')
 plt.ylabel('Relative DEC ['+unit+']')
 
+if scale_min == 'None':
+	scale_min = -level0
+if scale_max == 'None':
+	scale_max = 0.5*np.max(image)
+print("Applied scale range from "+str(scale_min)+" to "+str(scale_max))
+
+
 #image colormap
 if im_colormap == True:
-	col = ax.imshow(image, cmap=im_color,norm=colors.SymLogNorm(linthresh=level0, linscale=0.5,vmin=-level0, vmax=0.5*np.max(image)),extent=extent,origin='lower')
+	col = ax.imshow(image, cmap=im_color,norm=colors.SymLogNorm(linthresh=level0, linscale=0.5,vmin=scale_min, vmax=scale_max),extent=extent,origin='lower')
 	divider = make_axes_locatable(ax)
 	cax = divider.append_axes("right", size="5%", pad=0.05)
 	cbar = fig.colorbar(col, use_gridspec=True,cax=cax)
@@ -188,8 +203,8 @@ if im_colormap == True:
 
 #contour plot
 if contour == True:
-	ax.contour(x,y,image,linewidths=contour_width,levels=[-level0,level0,level0*2,level0*2**2,level0*2**3,level0*2**4,level0*2**5,level0*2**6,level0*2**7,level0*2**8,level0*2**9,level0*2**10], colors=contour_color, alpha=contour_alpha,cmap=contour_cmap, norm=colors.SymLogNorm(linthresh=level0, linscale=0.5,vmin=-level0, vmax=0.5*np.max(image)))
-
+	ax.contour(x,y,image,linewidths=contour_width,levels=[-level0,level0,level0*2,level0*2**2,level0*2**3,level0*2**4,level0*2**5,level0*2**6,level0*2**7,level0*2**8,level0*2**9,level0*2**10], colors=contour_color, alpha=contour_alpha,cmap=contour_cmap, norm=colors.SymLogNorm(linthresh=level0, linscale=0.5,vmin=scale_min, vmax=scale_max))
+print("Defined contour-levels:"+str([-level0,level0,level0*2,level0*2**2,level0*2**3,level0*2**4,level0*2**5,level0*2**6,level0*2**7,level0*2**8,level0*2**9,level0*2**10]))
 # #overplot
 # #overplot clean
 # if overplot_clean == True:
