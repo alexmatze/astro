@@ -48,8 +48,8 @@ contour_cmap = None #matplotlib colormap string
 contour_alpha = 1 # Transparency
 contour_width = 0.5 # contour linewidth
 #Range of Color/grey scale
-scale_min = 'None' #if 'None': defined automatically
-scale_max = 'None' #if 'None': defined automatically
+scale_min = -0.0398212879 #if 'None': defined automatically
+scale_max = 1.4932113886 #if 'None': defined automatically
 
 #image colormap
 im_colormap =True # if True a image colormap is done
@@ -171,7 +171,6 @@ if unit == 'mas':
 	# c_y = c_y*60*60*1000
 
 x = np.linspace(-len(image[0])*0.5*scale,(len(image[0])*0.5-1)*scale,len(image[0]))
-print(-len(image[0])*0.5*scale)
 y = np.linspace(len(image[0])*0.5*scale,-(len(image[0])*0.5-1)*scale,len(image[0]))
 
 extent = np.max(x), np.min(x), np.min(y), np.max(y)
@@ -206,6 +205,7 @@ if im_colormap == True:
 if contour == True:
 	ax.contour(x,y,image,linewidths=contour_width,levels=[-level0,level0,level0*2,level0*2**2,level0*2**3,level0*2**4,level0*2**5,level0*2**6,level0*2**7,level0*2**8,level0*2**9,level0*2**10], colors=contour_color, alpha=contour_alpha,cmap=contour_cmap, norm=colors.SymLogNorm(linthresh=level0, linscale=0.5,vmin=scale_min, vmax=scale_max))
 
+print("Defined contour-levels:"+str([-level0,level0,level0*2,level0*2**2,level0*2**3,level0*2**4,level0*2**5,level0*2**6,level0*2**7,level0*2**8,level0*2**9,level0*2**10]))
 # #overplot
 # #overplot clean
 # if overplot_clean == True:

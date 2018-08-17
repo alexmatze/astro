@@ -12,7 +12,7 @@ from dateutil import parser
 band_name="4"
 #freq_name="126-160"
 #freq_name="126-160_Gaussfit"
-freq_name="126"
+freq_name="154"
 
 
 
@@ -20,7 +20,7 @@ freq_name="126"
 #input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/bands/'+freq_name+'/band'+band_name+'_resid2.fits'
 #input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_resid2.fits'
 #input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_comp2.fits'
-input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/bands/126/band7.fits'
+input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/bands/154/band3.fits'
 input_path_model = input_path_image
 output_path = './'+freq_name+'.pdf'
 
@@ -48,8 +48,8 @@ contour_cmap = None #matplotlib colormap string
 contour_alpha = 1 # Transparency
 contour_width = 0.5 # contour linewidth
 #Range of Color/grey scale
-scale_min = 'None' #if 'None': defined automatically
-scale_max = 'None' #if 'None': defined automatically
+scale_min = -0.0398212879 #if 'None': defined automatically
+scale_max = 1.4932113886 #if 'None': defined automatically
 
 #image colormap
 im_colormap =True # if True a image colormap is done
@@ -205,7 +205,7 @@ if im_colormap == True:
 #contour plot
 if contour == True:
 	ax.contour(x,y,image,linewidths=contour_width,levels=[-level0,level0,level0*2,level0*2**2,level0*2**3,level0*2**4,level0*2**5,level0*2**6,level0*2**7,level0*2**8,level0*2**9,level0*2**10], colors=contour_color, alpha=contour_alpha,cmap=contour_cmap, norm=colors.SymLogNorm(linthresh=level0, linscale=0.5,vmin=scale_min, vmax=scale_max))
-
+print("Defined contour-levels:"+str([-level0,level0,level0*2,level0*2**2,level0*2**3,level0*2**4,level0*2**5,level0*2**6,level0*2**7,level0*2**8,level0*2**9,level0*2**10]))
 # #overplot
 # #overplot clean
 # if overplot_clean == True:
