@@ -8,9 +8,11 @@ def phi (theta,beta):
 	K=ratio**(-1/3.7)
 	return theta - np.arccos((1-K*(1+beta*np.cos(theta*2*np.pi/360)))/beta)*360/(2*np.pi);
 
-def deltatrig(theta):
-	return np.arcsin(np.sin(theta*2*np.pi/360)/4)*360/(2*np.pi);
+#def deltatrig(theta):
+#	return np.arcsin(np.sin(theta*np.pi/180)/4)*180/(np.pi);
 
+def deltatrig(theta):
+	return np.arcsin(np.sin(theta*np.pi/180)/2)*180/(np.pi);
 
 def phi_d(theta):
 	return theta-deltatrig(theta);
@@ -26,7 +28,7 @@ for i in range(len(brange)):
 		plt.plot(theta1,phi(theta1,brange[i]),c='Blue',linewidth = 0.1)
 
 plt.plot(theta1,theta1,c='Orange', label='bisector')
-plt.plot(theta1,deltatrig(theta1),c='Red', label=r'$\delta^{\prime}$')
+#plt.plot(theta1,deltatrig(theta1),c='Red', label=r'$\delta^{\prime}$')
 plt.plot(theta1,phi_d(theta1),c='Green', label=r'$\varphi^{\prime}$')
 plt.ylim(0,6)
 plt.xlim(0,5.5)
