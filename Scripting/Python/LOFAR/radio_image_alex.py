@@ -55,6 +55,7 @@ scale_max = 1.4932113886 #if 'None': defined automatically
 #image colormap
 im_colormap =True # if True a image colormap is done
 im_color = 'viridis' #string for matplotlib colormap
+im_color = 'RdBu_r'
 
 #model overplot
 #overplot Gaussian
@@ -276,6 +277,7 @@ ax.text(name_x,name_y,name,color=name_color,ha='left',va='top')
 
 # tight layout
 plt.tight_layout()
+plt.show()
 #print(g_pos)
 # save image
-plt.savefig(output_path,bbox_inches='tight')
+#plt.savefig(output_path,bbox_inches='tight')
