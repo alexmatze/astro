@@ -11,16 +11,16 @@ from dateutil import parser
 #######################################
 band_name="4"
 #freq_name="126-160"
-freq_name="126-160_Gaussfit"
-#freq_name="126-160_stack"
+#freq_name="126-160_Gaussfit"
+freq_name="126-160_stack"
 
 
 
 #input path of the interferometric FITS-file, and the model-fitsfile and output path of the resulting image
 #input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/bands/'+freq_name+'/band'+band_name+'_resid2.fits'
 #input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_resid2.fits'
-input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_comp2.fits'
-#input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_stacked_hba.fits'
+#input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_comp2.fits'
+input_path_image = '/scratch/local/akappes/git/astro/Scripting/Python/LOFAR/0836+710_stacked_hba.fits'
 input_path_model = input_path_image
 output_path = './'+freq_name+'.pdf'
 
@@ -276,7 +276,6 @@ ax.text(name_x,name_y,name,color=name_color,ha='left',va='top')
 
 # tight layout
 plt.tight_layout()
-plt.show()
 #print(g_pos)
 # save image
 plt.savefig(output_path,bbox_inches='tight')
