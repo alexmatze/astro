@@ -53,7 +53,7 @@ scale_max = 1.4932113886 #if 'None': defined automatically
 
 #image colormap
 im_colormap =True # if True a image colormap is done
-im_color = 'viridis' #string for matplotlib colormap
+im_color ='viridis'# 'viridis' #string for matplotlib colormap
 
 #model overplot
 #overplot Gaussian

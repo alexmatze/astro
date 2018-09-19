@@ -20,6 +20,9 @@ def phi_d(theta):
 brange = np.linspace(0.12557,0.12605,num=int((0.12605-0.12557)/0.00001))
 theta1 = np.linspace(-1,5.5,num=1000)
 
+def phi_d_max(theta):
+	return phi_d(theta) + theta;
+
 
 for i in range(len(brange)):
 	if i==0:
@@ -30,6 +33,8 @@ for i in range(len(brange)):
 plt.plot(theta1,theta1,c='Orange', label='bisector')
 #plt.plot(theta1,deltatrig(theta1),c='Red', label=r'$\delta^{\prime}$')
 plt.plot(theta1,phi_d(theta1),c='Green', label=r'$\varphi^{\prime}$')
+plt.plot(theta1,phi_d_max(theta1),'--',c="Green", label=r'$\varphi^{\prime}_{max}$')
+plt.fill_between(theta1,phi_d(theta1),phi_d_max(theta1),facecolor='Green',alpha=0.2)
 plt.ylim(0,6)
 plt.xlim(0,5.5)
 plt.xlabel(r'$\theta$ [deg]')
