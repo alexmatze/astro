@@ -19,7 +19,7 @@ def phi_d(theta):
 	return theta-deltatrig(theta);
 minb = 0.4185
 maxb = 0.4205
-brange = np.linspace(minb,maxb,num=int(np.abs((maxb-minb)/0.00002)))
+brange = np.linspace(minb,maxb,num=int(np.abs((maxb-minb)/0.00005)))
 theta1 = np.linspace(-1,5.5,num=1000)
 
 def phi_d_max(theta):
