@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 
 def phi (theta,beta):
 	FHS=2.545
+	FHS=27.20614
 	FCHS=1
 	ratio=FHS/FCHS
 	K=ratio**(-1/3.7)
@@ -16,8 +17,9 @@ def deltatrig(theta):
 
 def phi_d(theta):
 	return theta-deltatrig(theta);
-
-brange = np.linspace(0.12557,0.12605,num=int((0.12605-0.12557)/0.00001))
+minb = 0.4185
+maxb = 0.4205
+brange = np.linspace(minb,maxb,num=int(np.abs((maxb-minb)/0.00002)))
 theta1 = np.linspace(-1,5.5,num=1000)
 
 def phi_d_max(theta):
@@ -42,5 +44,5 @@ plt.ylabel(r'respective angle [deg]')
 plt.legend()
 
 
-plt.savefig('calculusparam.pdf')
+plt.savefig('calculusparam_max.pdf')
 plt.show()
