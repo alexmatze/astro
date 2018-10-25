@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 def phi (theta,beta):
 	FHS=2.545
-	FHS=27.20614
+	FHS=1.18904
 	FCHS=1
 	ratio=FHS/FCHS
 	K=ratio**(-1/3.7)
@@ -17,10 +17,16 @@ def deltatrig(theta):
 
 def phi_d(theta):
 	return theta-deltatrig(theta);
-minb = 0.4185
-maxb = 0.4205
-brange = np.linspace(minb,maxb,num=int(np.abs((maxb-minb)/0.00005)))
-theta1 = np.linspace(-1,5.5,num=1000)
+minb = 0.023395
+maxb = 0.02348
+pltxmin=0.
+pltxmax=5.5
+steps=25
+#brange = np.linspace(minb,maxb,num=int(np.abs((maxb-minb)/0.00005)))
+brange = np.linspace(minb,maxb,num=int(steps))
+print("Stepsize: "+str((maxb-minb)/steps))
+print("from "+str(minb)+" to "+str(maxb))
+theta1 = np.linspace(pltxmin,pltxmax,num=1000)
 
 def phi_d_max(theta):
 	return phi_d(theta) + theta;
@@ -38,11 +44,11 @@ plt.plot(theta1,phi_d(theta1),c='Green', label=r'$\varphi^{\prime}$')
 plt.plot(theta1,phi_d_max(theta1),'--',c="Green", label=r'$\varphi^{\prime}_{max}$')
 plt.fill_between(theta1,phi_d(theta1),phi_d_max(theta1),facecolor='Green',alpha=0.2)
 plt.ylim(0,6)
-plt.xlim(0,5.5)
+plt.xlim(pltxmin,pltxmax)
 plt.xlabel(r'$\theta$ [deg]')
 plt.ylabel(r'respective angle [deg]')
 plt.legend()
 
 
-plt.savefig('calculusparam_max.pdf')
+plt.savefig('calculusparam.pdf')
 plt.show()

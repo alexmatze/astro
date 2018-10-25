@@ -7,15 +7,17 @@ for rat=27.20614:
 	b_max=0.4205
 ----------------------- Difmap appr. --------------------
 for rat=1.07729:
-	b_min=
-	b_max=
+	b_min=0.01006
+	b_max=0.01010
+	steps=1.58e-06
 
 for rat=1.30079:
-	b_min=
-	b_max=
+	b_min=0.035525
+	b_max=0.03565
+	steps=5e-06
 
 for rat=1.18904:
-	b_min=
-	b_max=
-
+	b_min=0.023395
+	b_max=0.02348
+	steps=3.4e-06
 
