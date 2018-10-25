@@ -5,3 +5,17 @@ for rat=1.06967:
 for rat=27.20614:
 	b_min=0.4185
 	b_max=0.4205
+----------------------- Difmap appr. --------------------
+for rat=1.07729:
+	b_min=
+	b_max=
+
+for rat=1.30079:
+	b_min=
+	b_max=
+
+for rat=1.18904:
+	b_min=
+	b_max=
+
+
