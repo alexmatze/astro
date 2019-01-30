@@ -24,7 +24,7 @@ from matplotlib.mlab import bivariate_normal
 #     Loading absolute and temporary variables 
 #====================================================
 
-path_in="band7.fits"
+path_in="band10.fits"
 path_out="mask.fits"
 #path_resid="band7_resid2.fits"
 path_resid="modeltest.fits"
@@ -184,8 +184,8 @@ header=hdulist[0].header
 hdulist_resid=pyfits.open(path_resid) * 1
 dataset_resid=hdulist_resid[0].data[0][0] * 1
 
-low_level = 0.01
-grow_loops = 10
+low_level = 0.005
+grow_loops = 20
 init_mask=dataset * 0.
 g_mask = dataset * 0. + 1.
 loop_count = 0
@@ -210,7 +210,7 @@ while loop_cond:
 
 
 #two-region fix
-reg_no_split = 87
+reg_no_split = 90
 
 tmp_mask = final_mask * 1
 topfl=0.

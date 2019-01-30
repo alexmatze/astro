@@ -24,7 +24,7 @@ from matplotlib.mlab import bivariate_normal
 #     Loading absolute and temporary variables 
 #====================================================
 
-path_in="band7.fits"
+path_in="band8.fits"
 path_out="mask.fits"
 #path_resid="band7_resid2.fits"
 path_resid="modeltest.fits"
@@ -210,7 +210,7 @@ while loop_cond:
 
 
 #two-region fix
-reg_no_split = 87
+reg_no_split = 92
 
 tmp_mask = final_mask * 1
 topfl=0.
