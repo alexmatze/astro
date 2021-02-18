@@ -111,6 +111,7 @@ print(template.format(" "," "))
 print(template.format(str("%.3E" % t_l(omega_k,omega_M,omega_lambda,z,H0)),' seconds'))
 print(template.format(str("%.3f" % s_to_h(t_l(omega_k,omega_M,omega_lambda,z,H0),H0)),' Hubble time'))
 print(template.format(str("%.3f" % s_to_gyr(t_l(omega_k,omega_M,omega_lambda,z,H0))),' Giga years'))
+print(template.format(str("%.3f" % s_to_gyr(1/(((H0/3.086)*10**(-19)))-t_l(omega_k,omega_M,omega_lambda,z,H0))),' Giga years after Big Bang'))
 print(template.format(" "," "))
 
 print(" -----------Comoving distance----------------")
