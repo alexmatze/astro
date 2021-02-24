@@ -1,3 +1,8 @@
+# --------------------------------------------------------
+# The calculus can be looked up in the paper by D. W. Hogg
+# https://arxiv.org/pdf/astro-ph/9905116.pdf
+# --------------------------------------------------------
+
 import numpy as np
 from scipy.integrate import quad
 
