@@ -50,6 +50,10 @@ def D_M(omega_k,omega_M,omega_Lambda,z,H0):
         Dc = D_h * (1/np.sqrt(omega_k)) * np.sin(np.sqrt(omega_k)*D_c/D_h)
     return(Dc) # in m
 
+#angular diameter distance
+def D_A(omega_k,omega_M,omega_Lambda,z,H0):
+    return D_M(omega_k, omega_M, omega_Lambda, z, H0)/(1+z) #returns m/rad
+
 #distance line-of-sight
 def D_c(omega_k,omega_M,omega_Lambda,z,H0):
     if omega_k+omega_M+omega_Lambda == 1:
@@ -74,6 +78,9 @@ def t_l(omega_k,omega_M,omega_Lambda,z,H0):
     tl = t_h * quad(E,0,z,args=(omega_k,omega_M,omega_Lambda))[0]
     return tl # in s
 
+#convert m to kpc
+def m_to_kpc(d):
+    return d /(3.086*10**(16) *10**(6))
 
 #convert m to Gpc
 def m_to_gpc(d):
@@ -124,5 +131,8 @@ print(template.format(" "," "))
 print(template.format(str("%.3E" % D_M(omega_k,omega_M,omega_lambda,z,H0)),' meters'))
 print(template.format(str("%.3f" % m_to_gpc(D_M(omega_k,omega_M,omega_lambda,z,H0))),' Giga parsecs'))
 print(template.format(str("%.3f" % m_to_gly(D_M(omega_k,omega_M,omega_lambda,z,H0))),' Giga lightyears'))
+print(template.format(" "," "))
+print(template.format(str("%.3E" % m_to_kpc(np.pi/(180*60) * D_A(omega_k,omega_M,omega_lambda,z,H0))),' kpc/arcmin'))
+print(template.format(str("%.3E" % m_to_kpc(np.pi/(180*3600) * D_A(omega_k,omega_M,omega_lambda,z,H0))),' kpc/arcsec'))
 print(template.format(" "," "))
 print(" --------------------------------------------")
