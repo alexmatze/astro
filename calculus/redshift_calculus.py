@@ -80,7 +80,7 @@ def t_l(omega_k,omega_M,omega_Lambda,z,H0):
 
 #convert m to kpc
 def m_to_kpc(d):
-    return d /(3.086*10**(16) *10**(6))
+    return d /(3.086*10**(16) *10**(3))
 
 #convert m to Gpc
 def m_to_gpc(d):
