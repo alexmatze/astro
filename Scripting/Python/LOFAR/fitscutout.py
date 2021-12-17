@@ -33,7 +33,7 @@ def MakeCutout(filename,RA,dec,ArcMinSize,cutoutname=None):
     if (imhdu[0].data).ndim ==4:
         imdata = imhdu[0].data[0,0,:,:]
     elif (imhdu[0].data).ndim ==2:
-        imdata = imhdu[:,:]
+        imdata = imhdu
     else:
         print("Your input FITS-file does not match the required shape. The datacube should have a dimension of 2 or 4.")
     # make cutout box
