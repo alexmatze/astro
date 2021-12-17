@@ -22,10 +22,10 @@ def readArguments():
 def MakeCutout(filename,RA,dec,ArcMinSize,cutoutname=None):
     # parse RA, Dec coordinates
     if type(RA)==str:
-        print "Cropped image centre:"
-        print "RA   : %s"%RA
-        print "Dec  : %s"%dec
-        print "Size : %s '"%ArcMinSize
+        print("Cropped image centre:")
+        print("RA   : %s"%RA)
+        print("Dec  : %s"%dec)
+        print("Size : %s '"%ArcMinSize)
         RAdeg  = HHMMSStoDegrees(RA)*15. # this converts RA from hours to degrees
         Decdeg = HHMMSStoDegrees(dec)
     imhdu = fits.open(filename)
@@ -38,7 +38,7 @@ def MakeCutout(filename,RA,dec,ArcMinSize,cutoutname=None):
     if cutoutname==None:
         cutoutname=filename+".cutout.fits"
     saveFITS(cutoutname,cutout['data'],cutout['wcs'])
-    print "Cutout is: %s"%cutoutname
+    print("Cutout is: %s"%cutoutname)
     imhdu.close()
 
 
