@@ -38,6 +38,7 @@ def MakeCutout(filename,RA,dec,ArcMinSize,cutoutname=None):
         print("Your input FITS-file does not match the required shape. The datacube should have a dimension of 2 or 4.")
     # make cutout box
     rmin,rmax,dmin,dmax=calcRADecSearchBox(RAdeg,Decdeg,ArcMinSize/60.)
+    print(rmin,rmax,dmin,dmax)
     cutout = clipUsingRADecCoords(imdata,imwcs,rmin,rmax,dmin,dmax)
     im=cutout["data"]
     if cutoutname==None:
