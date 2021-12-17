@@ -30,7 +30,12 @@ def MakeCutout(filename,RA,dec,ArcMinSize,cutoutname=None):
         Decdeg = HHMMSStoDegrees(dec)
     imhdu = fits.open(filename)
     imwcs = WCS(filename)
-    imdata = imhdu[0].data[0,0,:,:]
+    if (imhdu[0].data).ndim ==4:
+        imdata = imhdu[0].data[0,0,:,:]
+    elif (imhdu[0].data).ndim ==2:
+        imdata = imhdu[:,:]
+    else:
+        print("Your input FITS-file does not match the required shape. The datacube should have a dimension of 2 or 4.")
     # make cutout box
     rmin,rmax,dmin,dmax=calcRADecSearchBox(RAdeg,Decdeg,ArcMinSize/60.)
     cutout = clipUsingRADecCoords(imdata,imwcs,rmin,rmax,dmin,dmax)
