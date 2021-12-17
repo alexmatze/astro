@@ -5,6 +5,7 @@ from astropy.io import fits
 from astLib.astWCS import WCS
 from astLib.astCoords import calcRADecSearchBox
 from astLib.astImages import clipUsingRADecCoords
+from astLib.astImages import clipRotatedImageSectionWCS
 from astLib.astImages import saveFITS
 
 def readArguments():
@@ -38,10 +39,12 @@ def MakeCutout(filename,RA,dec,ArcMinSize,cutoutname=None):
         print("Your input FITS-file does not match the required shape. The datacube should have a dimension of 2 or 4.")
     # make cutout box
     rmin,rmax,dmin,dmax=calcRADecSearchBox(RAdeg,Decdeg,ArcMinSize/60.)
+
     print(RAdeg,Decdeg,ArcMinSize/60.)
     print("-----------------------------")
     print(rmin,rmax,dmin,dmax)
-    cutout = clipUsingRADecCoords(imdata,imwcs,rmin,rmax,dmin,dmax)
+    #cutout = clipUsingRADecCoords(imdata,imwcs,rmin,rmax,dmin,dmax)
+    cutout = clipRotatedImageSectionWCS(imdata,imwcs,RAdeg,Decdeg,2.*ArcMinSize/60.)
     im=cutout["data"]
     if cutoutname==None:
         cutoutname=filename+".cutout.fits"
